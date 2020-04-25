@@ -15,9 +15,10 @@ const authRouter = require('./routes/auth');
 const indexRouter = require('./routes/index');
 const postsRouter = require('./routes/postRoutes');
 
-// Creates the express application
+const { envPort, sessionKey } = require('./config');
+
 const app = express();
-const port = 9090;
+const port = envPort || 9090;
 
 // Listening to the port provided
 app.listen(port, () => {
@@ -60,7 +61,7 @@ app.use(express.static('public'));
 // Insert server configuration after this comment
 // Sessions
 app.use(session({
-  secret: 'somegibberishsecret',
+  secret: sessionKey,
   store: new MongoStore({ mongooseConnection: mongoose.connection }),
   resave: false,
   saveUninitialized: true,
